@@ -73,7 +73,8 @@
     <Content Include="Web.config" />
     <Content Include="LoginPage.aspx" />
     <Content Include="StudentPage.aspx" />
-    <Content Include="ProfessorPagge.aspx" />
+    <Content Include="ProfessorPage.aspx" />
+    <Content Include="HomePage.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthHelper.cs" />
@@ -94,12 +95,19 @@
     <Compile Include="StudentPage.aspx.designer.cs">
       <DependentUpon>StudentPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ProfessorPagge.aspx.cs">
-      <DependentUpon>ProfessorPagge.aspx</DependentUpon>
+    <Compile Include="ProfessorPage.aspx.cs">
+      <DependentUpon>ProfessorPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ProfessorPagge.aspx.designer.cs">
-      <DependentUpon>ProfessorPagge.aspx</DependentUpon>
+    <Compile Include="ProfessorPage.aspx.designer.cs">
+      <DependentUpon>ProfessorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HomePage.aspx.cs">
+      <DependentUpon>HomePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HomePage.aspx.designer.cs">
+      <DependentUpon>HomePage.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
