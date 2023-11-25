@@ -1,0 +1,273 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0;
+    flex: 1;
+}
+
+.column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.columnImages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#divintro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: auto;
+}
+
+#Image1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:auto;
+}
+
+#Image2, #Image3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+
+#logo-container {
+    display: flex;
+    align-items: center;
+}
+
+nav {
+    margin-right: auto;
+}
+
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    nav li {
+        margin-right: 20px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: block;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+nav a:hover {
+    color: #555;
+}
+
+#nav-login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btnLoginContainer {
+    margin-left: 20px;
+}
+
+#logo {
+    font-size: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#logo-container a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#logo-container a:hover {
+    color: #555;
+}
+
+section {
+    margin: 20px 0;
+    padding: 0 40px;
+}
+
+#home, #courses, #about{
+    margin-top:80px;
+    margin-left:30px;
+    margin-right:30px;
+}
+
+#about{
+    margin-bottom: 80px;
+}
+
+#welcome{
+    font-size: 45px;
+}
+
+#coursestitle, #abouttitle{
+    font-size: 35px;
+}
+
+#Image1, #Image2, #Image3{
+    border-radius: 10px;
+}
+
+footer {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin: 0;
+    margin-top: auto;
+}
+
+.login-button {
+    padding: 14px 24px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    max-width: 300px;
+}
+
+#btnLogin {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 14px 20px;
+    border: 2px solid #ff6600;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnLogin:hover {
+    background-color: #e55c00;
+    border: 2px solid #e55c00;
+}
+
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 110px;
+    margin-bottom: 110px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+#UsernameTextBox, #PasswordTextBox{
+    width: 100%;
+}
+
+#Label1 {
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#ErrorMessageLabel {
+    margin-top: 16px;
+    color: red;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+#userspages {
+    min-height: 70vh;
+}
+
+@media screen and (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #btnLoginContainer {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    #nav-login-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        vertical-align: middle;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+        nav ul {
+            text-align: center;
+            flex-direction: column;
+        }
+
+        nav li {
+            display: block;
+            margin: 10px 0;
+        }
+}}
