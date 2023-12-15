@@ -12,7 +12,9 @@ namespace Final_Project
 {
     public class AuthHelper
     {
-        
+        //Singleton Design Pattern in order to only have one instance of this class
+        //so that in the future if we have important fields, we dont have different values of data
+        //between instances
         private static readonly AuthHelper instance = new AuthHelper();
 
         
@@ -21,8 +23,10 @@ namespace Final_Project
             get { return instance; }
         }
 
-        
+        //It loads the whole url to the DataBase
         private readonly string dbPath = HttpContext.Current.Server.MapPath("~/universityDB.db");
+        
+        //Property to get the dbPath, we should have also done the ^httpcontext.... here 
         public string DbPath
         {
             get
@@ -32,10 +36,10 @@ namespace Final_Project
             }
         }
 
-        
+        //Part of the Singleton Pattern, Private Constructor
         private AuthHelper() { }
 
-        
+        //Takes a password and returns it encrypted using the MD5 Hash Algorithm
         public string EncryptPassword(string password)
         {
             using (MD5 md5 = MD5.Create())
@@ -53,7 +57,7 @@ namespace Final_Project
         }
 
 
-        
+        //Checks if an instance of User is some role, returns V/F
         public bool IsAuthorized(User user, string role)
         {
             if (user != null && user.RoleName.Equals(role, StringComparison.OrdinalIgnoreCase))
@@ -64,19 +68,19 @@ namespace Final_Project
             return false;
         }
 
-        
+        //Method to save to the session, with a key and a value which is an object
         public void SaveToSession(string key, object value)
         {
             HttpContext.Current.Session[key] = value;
         }
 
-        
+        //Method to get the corresponding object saved in the session, maybe user
         public T GetFromSession<T>(string key)
         {
             return (T)HttpContext.Current.Session[key];
         }
 
-        
+        //Updates the user data, only used by Students when updating their information
         public void UpdateUserInSession(int userId)
         {
             
@@ -87,6 +91,7 @@ namespace Final_Project
         }
 
         
+        //Given 1 User ID we return the User Instance, using the User.cs class
         public User GetUserById(int userId)
         {
             

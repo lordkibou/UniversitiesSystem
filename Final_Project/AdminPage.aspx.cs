@@ -15,21 +15,24 @@ namespace Final_Project
         private AuthHelper authHelper;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //Fields
             authHelper = AuthHelper.Instance;
 
-            
+            //If there is no user in the session or the user in session is not admin
+            //redirect to LoginPage
             if (!IsUserAuthenticated() || !IsUserAdmin())
             {
                 Response.Redirect("LoginPage.aspx");
             }
 
+            //If this is the first time we load the page we load everything by default
             if (!IsPostBack)
             {
                 LoadUsersToDelete();
                 LoadSubjectsInformation();
             }
 
+            //it loads the required scripts to make the website work properly
             ScriptManager.ScriptResourceMapping.AddDefinition("jquery", new ScriptResourceDefinition
             {
                 Path = "~/Scripts/jquery-3.3.1.min.js",
@@ -40,24 +43,26 @@ namespace Final_Project
 
         }
 
-        
+        //Checks if there is a user in the session
         private bool IsUserAuthenticated()
         {
             return authHelper.GetFromSession<User>("CurrentUser") != null;
         }
 
-       
+
+        //Checks if the user from the session is an admin
         private bool IsUserAdmin()
         {
             User currentUser = authHelper.GetFromSession<User>("CurrentUser");
             return authHelper.IsAuthorized(currentUser, "Administrator");
         }
-
+        //method to add functionallyty to the insert user button
+        //it adds the new data written by the admin in the database as a new user 
         protected void InsertUserButton_Click(object sender, EventArgs e)
         {
             try
             {
-                
+                //retrieves the data from all the textboxes
                 string newUserName = NewUserNameTextBox.Text;
                 string newUserSurname = NewUserSurnameTextBox.Text;
                 string newUserPassword = NewUserPasswordTextBox.Text;
@@ -68,7 +73,7 @@ namespace Final_Project
                 string newUserRole = NewUserRoleDropDown.SelectedValue;
                 string newUserUsername = NewUserUsernameTextBox.Text;
 
-                
+                //if the witten data is valid it encrypts the password in MD5 Hash and uploads it to the database
                 if (IsValidUserInput(newUserName, newUserSurname, newUserPassword, newUserDOB, newUserNationality, newUserID, newUserAddress, newUserRole, newUserUsername))
                 {
                     
@@ -77,13 +82,14 @@ namespace Final_Project
                     
                     InsertNewUser(newUserName, newUserSurname, encryptedPassword, newUserDOB, newUserNationality, newUserID, newUserAddress, newUserRole, newUserUsername);
 
-                    
+                    //clears the inputs to be alble to add many users quickly
                     ClearUserFields();
 
                     
                     Response.Write("<script>alert('Usuario insertado exitosamente.');</script>");
                 }
             }
+            //if theres an error uploading a user it catches the error and avoids crashing the website
             catch (Exception ex)
             {
                 
@@ -91,7 +97,7 @@ namespace Final_Project
             }
         }
 
-        
+        //this method checks if the written data in the inputs to create users is valid 
         private bool IsValidUserInput(string userName, string userSurname, string userPassword, string userDOB, string userNationality, string userID, string userAddress, string userRole, string userUsername)
         {
             
@@ -103,7 +109,7 @@ namespace Final_Project
             return true;
         }
 
-
+        //clears all the input fields about adding users
         private void ClearUserFields()
         {
             NewUserNameTextBox.Text = string.Empty;
@@ -117,7 +123,7 @@ namespace Final_Project
         }
 
 
-
+        //method that uploads the new user to the database
         private void InsertNewUser(string userName, string userSurname, string userPassword, string userDOB, string userNationality, string userID, string userAddress, string userRole, string userUsername)
         {
             string insertQuery = @"
@@ -154,7 +160,7 @@ namespace Final_Project
 
 
 
-        
+        //this method retrieves the corresponding role name from a role ID 
         private int GetRoleIDByName(string roleName)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -174,14 +180,14 @@ namespace Final_Project
         }
 
 
-        
+        //loads the users in the delete table
         private void LoadUsersToDelete()
         {
             DataTable usersTable = GetUsersToDelete();
             UsersToDeleteGridView.DataSource = usersTable;
             UsersToDeleteGridView.DataBind();
         }
-
+        //retrieves all the users to be added in the delete table
         private DataTable GetUsersToDelete()
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -199,14 +205,14 @@ namespace Final_Project
                 {
                     using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(command))
                     {
-                        DataTable dataTable = new DataTable();
+                        DataTable dataTable = new DataTable(); //fills the actual table with the data
                         adapter.Fill(dataTable);
                         return dataTable;
                     }
                 }
             }
         }
-
+        //method that deletes the selected user by its ID
         protected void UsersToDeleteGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int userId = Convert.ToInt32(e.Keys["UserID"]);
@@ -215,7 +221,8 @@ namespace Final_Project
 
             Response.Redirect(Request.RawUrl);
         }
-
+        //the specific method that goes to the database and deletes the user identifing it by their ID, deleting also all
+        //their teching subjects in case they're a professor and enrollments in case they're a student
         private void DeleteUser(int userId)
                             {
                                 string deleteQuery = @"
@@ -278,7 +285,7 @@ namespace Final_Project
         }
 
 
-        
+        //Function to load the subjects info into the data, using Bind
         private void LoadSubjectsInformation()
         {
             DataTable subjectsTable = GetSubjectsInformation();
@@ -286,6 +293,7 @@ namespace Final_Project
             SubjectsGridView.DataBind();
         }
 
+        //Function to get all the subjects information from the Database and fill in the Adapter
         private DataTable GetSubjectsInformation()
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -310,7 +318,7 @@ namespace Final_Project
 
 
 
-
+        //Function to show the popup and load the students in the popup
         protected void SubjectsGridView_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "EditUsers")
@@ -328,17 +336,23 @@ namespace Final_Project
 
         private void LoadUsersIntoListBox(int subjectID)
         {
+            //WE USE VIEW STATE, state management to save the subject we are dealing with
+            // when adding or deleting users from a subject in the popup
             ViewState["GlobalSubjectID"] = subjectID;
             
+            //ID from user and Role in the Dictionary in order to show it in the UI
             Dictionary<int, string> allUsersInfo = GetAllUsersInfo();
 
             
             List<int> enrolledUserIds = GetUsersForSubject(subjectID);
 
             
+            //We clear checkboxes list
             UserCheckBoxList.Items.Clear();
 
-            
+            //For Each User check if they have relation with the subject 
+            //fill the checkboxes of the ones that have relation with the subject
+            //anyways, we load all the users and show who has relation with the subject
             foreach (var userInfo in allUsersInfo)
             {
                 ListItem listItem = new ListItem($"{userInfo.Key} - {userInfo.Value}", userInfo.Key.ToString());
@@ -353,6 +367,7 @@ namespace Final_Project
             }
         }
 
+        //Load all the users ID and Role for the UI on the popup for each subject
         private Dictionary<int, string> GetAllUsersInfo()
         {
             Dictionary<int, string> usersInfo = new Dictionary<int, string>();
@@ -388,6 +403,8 @@ namespace Final_Project
         }
 
 
+        //Get all the users and return a list of IDs from those who have relation with a
+        //subject, this is used in the popup for each subject in the admin
         private List<int> GetUsersForSubject(int subjectID)
         {
             List<int> userIds = new List<int>();
@@ -423,7 +440,8 @@ namespace Final_Project
             return userIds;
         }
 
-
+        //Checks if a given user has relationship with a subject both for professor and student
+        //this is called when we confirm changes in the popup for subject in admin
         private bool IsRelationExists(int subjectID, int userID)
         {
             string userRole = GetUserRole(userID);
@@ -452,6 +470,7 @@ namespace Final_Project
             }
         }
 
+        //Given the ID of a User returns only his Role
         private string GetUserRole(int userID)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -467,24 +486,29 @@ namespace Final_Project
             }
         }
 
-
+        //When we confirm in the popup, this happens
         protected void ConfirmButton_Click(object sender, EventArgs e)
         {
 
-            
+            //We get the subjectID we had saved in the ViewState, when we chose a subject to edit
             int subjectID = (int)ViewState["GlobalSubjectID"];
 
             
+            //for each checkbox in the list
             foreach (ListItem listItem in UserCheckBoxList.Items)
             {
+
+                //We get the id
                 int userId = Convert.ToInt32(listItem.Value);
 
+                //If the checkbox is selected
                 if (listItem.Selected)
                 {
-                    
+                    //Checkbox selected and no relation in the database yet, means that we add it
                     if (!IsRelationExists(subjectID, userId))
                     {
-                        
+                        //We add the relation between the user either student or professor
+                        //with the chose subject
                         string userRole = GetUserRole(userId);
                         if (userRole == "Student")
                         {
@@ -498,7 +522,8 @@ namespace Final_Project
                 }
                 else
                 {
-                   
+                   //If the checkbox is not selected we dont care if the user has relation or not
+                   //We just delete the relation of that user from the database
                     string userRole = GetUserRole(userId);
                     if (userRole == "Student")
                     {
@@ -514,6 +539,7 @@ namespace Final_Project
         }
 
 
+        //Function that creates the relation of a student with studying a subject, enrolling it 
         private void CreateEnrollment(int subjectID, int userID)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -531,6 +557,7 @@ namespace Final_Project
             }
         }
 
+        //Function that creates the relation of a professor to teach a subject
         private void CreateTeaching(int subjectID, int userID)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -548,6 +575,7 @@ namespace Final_Project
             }
         }
 
+        //Function that deletes the relation of a student with studying a subject, deleting its enrollement
         private void DeleteEnrollment(int subjectID, int userID)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -564,6 +592,7 @@ namespace Final_Project
             }
         }
 
+        //Function that deletes the relation of a professor with teaching a subject
         private void DeleteTeaching(int subjectID, int userID)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))

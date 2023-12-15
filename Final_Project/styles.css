@@ -1,35 +1,37 @@
-﻿body {
+﻿
+/*define type of font and erases predetermined margin and padding*/
+body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+/*class container for divs to make them responsive*/
 .container {
     margin: 0 auto;
     padding: 0;
     flex: 1;
 }
-
+/*class column to move textboxs vertically and have a better layout*/
 .column {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-
+/*class for images to be centered horizontally and vertically*/
 .columnImages {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+/*we define an specific div for the intro because it needs diferent characteristics than other divs*/
 #divintro {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: auto;
 }
-
+/*we define the 3 images in the homepage as specific IDs to be centered */
 #Image1 {
     display: flex;
     flex-direction: column;
@@ -43,11 +45,11 @@
     align-items: center;
     margin: auto;
 }
-
+/*for input textboxes to have some vertical spce between*/
 .form-group {
     margin-bottom: 10px;
 }
-
+/*define the header characteristics for all pages, to have a specific color, and to be responsive*/
 header {
     background-color: #3498db;
     color: #fff;
@@ -57,13 +59,12 @@ header {
     justify-content: space-between; 
     align-items: center;
 }
-
-
+/*the logo characteristics*/
 #logo-container {
     display: flex;
     align-items: center;
 }
-
+/*the navegation menu in the header to be responsive*/
 nav {
     margin-right: auto;
 }
@@ -87,63 +88,63 @@ nav {
         padding: 10px;
         font-size: 18px;
     }
-
+/*when we hover the mouse over the nav the color changes*/
 nav a:hover {
     color: #555;
 }
-
+/*we have a specific ID for the nav in the loginpage*/
 #nav-login-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
+/*the login button has some left margin to have better UI*/
 #btnLoginContainer {
     margin-left: 20px;
 }
-
+/*the logo has a specific size and position to have a good UI*/
 #logo {
     font-size: 24px;
     margin-right: 10px;
     vertical-align: middle;
 }
-
+/*the link inside the logo, we erased any predetermined colors and decoration*/
 #logo-container a {
     text-decoration: none;
     color: inherit;
 }
-
+/*the link in the logo changes color when hovering the mouse over it*/
 #logo-container a:hover {
     color: #555;
 }
-
+/*all sections in the website have some margin and padding to improve UI*/
 section {
     margin: 20px 0;
     padding: 0 40px;
 }
-
+/*the three main topics in the homepage have extra margins to be more present*/
 #home, #courses, #about{
     margin-top:80px;
     margin-left:30px;
     margin-right:30px;
 }
-
+/*the about section also has some extra margin to have some space below*/
 #about{
     margin-bottom: 80px;
 }
-
+/*the welcome text its bigger to stand out*/
 #welcome{
     font-size: 45px;
 }
-
+/*same for the course titles and their abouts, but a bit smaller*/
 #coursestitle, #abouttitle{
     font-size: 35px;
 }
-
+/*the three images have some border radius to have smooth edges*/
 #Image1, #Image2, #Image3{
     border-radius: 10px;
 }
-
+/*the footer shares some of the chracteristics of the header, mostly the colors*/
 footer {
     background-color: #3498db;
     color: #fff;
@@ -152,7 +153,7 @@ footer {
     margin: 0;
     margin-top: auto;
 }
-
+/*the login button class has specific style to stand out over other buttons*/
 .login-button {
     padding: 14px 24px;
     background-color: #2ecc71;
@@ -162,7 +163,7 @@ footer {
     font-size: 18px;
     max-width: 300px;
 }
-
+/*the specific login button from the homepage is diferent to stand out*/
 #btnLogin {
     background-color: #ff6600;
     color: #fff;
@@ -172,13 +173,12 @@ footer {
     font-weight: bold;
     cursor: pointer;
 }
-
+/*the specific login button from the homepage changes color when hovering a mouse over to stand out, atracting the user*/
 #btnLogin:hover {
     background-color: #e55c00;
     border: 2px solid #e55c00;
 }
-
-
+/*in loginpage we define the container that has the username and password inputs*/
 .login-container {
     max-width: 400px;
     margin: 0 auto;
@@ -189,28 +189,28 @@ footer {
     margin-top: 110px;
     margin-bottom: 110px;
 }
-
+/*all labels have this specific style, with bold font*/
 label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
-
+/*the inputs in loginpage have some padding and margin to be properly placed in the container*/
 input[type="text"],
 input[type="password"] {
     padding: 8px;
     margin-bottom: 16px;
     box-sizing: border-box;
 }
-
+/*these textboxs can extend horizontally all they need to*/
 #UsernameTextBox, #PasswordTextBox{
     width: 100%;
 }
-
+/*this specific label also has bold font but not the other characteristics*/
 #Label1 {
     font-weight: bold;
 }
-
+/*all buttons in the website have this style*/
 button {
     width: 100%;
     padding: 10px;
@@ -220,25 +220,25 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
-
+/*all buttons in the website have hover to show it's a button, including the before "cursor:pointer" 
+to change the arrow to a clicking hand*/
 button:hover {
     background-color: #2980b9;
 }
-
+/*this specific error message appart from being red has extra margin on the top*/
 #ErrorMessageLabel {
     margin-top: 16px;
     color: red;
 }
-
-
+/*this makes scrolling through the website more smooth and pleasant*/
 html {
     scroll-behavior: smooth;
 }
-
+/*all user pages Student/Professor/Admin have minimum height to have correctly placed headers and footers*/
 #userspages {
     min-height: 70vh;
 }
-
+/*This adapts the header with its nav and login button to be repsonsive, in this case up to 600px to be visible*/
 @media screen and (max-width: 600px) {
     header {
         flex-direction: column;

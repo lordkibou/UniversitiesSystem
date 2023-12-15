@@ -11,17 +11,22 @@ namespace Final_Project
 {
     public partial class StudentPage : System.Web.UI.Page
     {
+        //Creates or loads? an instance of authentication
         private AuthHelper authHelper;
 
+
+        //When the Student Page loads, before showing any info (white screen) it checks if the user is authenticated
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             authHelper = AuthHelper.Instance;
-            
+            //if the user is not authenticated or the authenticated user is not a student, it redirects to the login page
             if (!IsUserAuthenticated() || !IsUserStudent())
             {
                 Response.Redirect("LoginPage.aspx");
             }
-
+            //if the user authenticated is a student, it loads his/her information and subjects,
+            //and has by default the year 2023 as actual
             if (!IsPostBack)
             {
                 LoadStudentInfo();
@@ -31,7 +36,7 @@ namespace Final_Project
                 
                 LoadEnrolledSubjects(defaultYear);
             }
-
+            //this only loads the necessary scripts for the website to work properly
             ScriptManager.ScriptResourceMapping.AddDefinition("jquery", new ScriptResourceDefinition
             {
                 Path = "~/Scripts/jquery-3.3.1.min.js",
@@ -42,19 +47,19 @@ namespace Final_Project
 
 
         }
-        
+        //method to check if the user is authenticated
         private bool IsUserAuthenticated()
         {
             return authHelper.GetFromSession<User>("CurrentUser") != null;
         }
 
-        
+        //method to check if the authenticated user has a student role
         private bool IsUserStudent()
         {
             User currentUser = authHelper.GetFromSession<User>("CurrentUser");
             return authHelper.IsAuthorized(currentUser, "Student");
         }
-
+        //method that loads the student personal info
         private void LoadStudentInfo()
         {
             User currentUser = authHelper.GetFromSession<User>("CurrentUser");
@@ -64,7 +69,7 @@ namespace Final_Project
             StudentIDLabel.Text = currentUser.IDNumber;
             StudentAddressLabel.Text = currentUser.Address;
         }
-
+        //method that loads the enrolled subjects of the autheticated student on a table
         private void LoadEnrolledSubjects(int year)
         {
             User currentUser = authHelper.GetFromSession<User>("CurrentUser");
@@ -73,7 +78,7 @@ namespace Final_Project
             EnrolledSubjectsGridView.DataBind();
         }
 
-        
+        //method that actually retrieves the enrolled subjects data of the authenticated student with their professors names
         private DataTable GetEnrolledSubjectsWithProfessors(int studentId, int year)
         {
             using (SQLiteConnection connection = new SQLiteConnection(authHelper.DbPath))
@@ -112,7 +117,7 @@ namespace Final_Project
                 }
             }
         }
-
+        //When the student writes the new personal information, this method updates it in the database
         protected void UpdateStudentInformation(int userId, string newName, string newSurname, string newDOB, string newNationality, string newID, string newAddress)
         {            
             string updateQuery = @"
@@ -147,7 +152,8 @@ namespace Final_Project
             LoadStudentInfo();
         }
 
-
+        //this method adds the functionallity to the button that enables the personal info of the student to be updated
+        //in the database
         protected void UpdateInfoButton_Click(object sender, EventArgs e)
         {
             
@@ -170,7 +176,7 @@ namespace Final_Project
             }
         }
 
-
+        //this adds the professor names in the corresponding rows in the table of enrolled subjects
         protected void EnrolledSubjectsGridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -191,7 +197,7 @@ namespace Final_Project
                 }
             }
         }
-
+        //this method enables the student to select different years to check for previous or future subject enrollements
         protected void YearSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             

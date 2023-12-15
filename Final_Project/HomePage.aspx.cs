@@ -14,6 +14,7 @@ namespace Final_Project
 
         }
 
+        //Redirection to Login when we click in Login button
         protected void btnLogin_Click1(object sender, EventArgs e)
         {
             Response.Redirect("LoginPage.aspx");

@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿
+//Event listener that assigns the href and scrolls in the UI of the Landing Page
+document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -15,6 +17,7 @@
     });
 });
 
+//Method in order to scroll in the UI
 function scrollToSection(sectionId) {
     const targetElement = document.getElementById(sectionId);
 
